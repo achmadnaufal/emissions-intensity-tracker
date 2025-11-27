@@ -45,3 +45,17 @@ emissions-intensity-tracker/
 ## License
 
 MIT License — free to use, modify, and distribute.
+
+## New: Emissions Scope Calculator
+
+Calculate Scope 1, 2, and 3 emissions:
+
+```python
+from src.calculations.scope_calculator import EmissionsCalculator
+
+calc = EmissionsCalculator('Mine A')
+scope1 = calc.calculate_scope1_diesel(liters=50000)
+scope2 = calc.calculate_scope2_electricity(kwh=250000)
+scope3 = calc.calculate_scope3_shipping(tons=5000, distance_km=150)
+```
+
