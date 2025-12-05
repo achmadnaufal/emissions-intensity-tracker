@@ -59,3 +59,8 @@ scope2 = calc.calculate_scope2_electricity(kwh=250000)
 scope3 = calc.calculate_scope3_shipping(tons=5000, distance_km=150)
 ```
 
+
+
+## Usage Examples
+
+Refer to the `tests/` directory for comprehensive example implementations.
