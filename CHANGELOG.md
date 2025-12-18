@@ -5,6 +5,39 @@ All notable changes to the Emissions Intensity Tracker project are documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-03-12
+
+### Added
+
+- **Environmental Restoration Calculator** (`src/restoration_calculator.py`):
+  - `calculate_habitat_restoration()`: Convert carbon reductions to habitat area (4 habitat types)
+  - `calculate_species_recovery()`: Project species richness recovery over time
+  - `calculate_tree_planting_impact()`: Assess carbon and biodiversity impact of tree plantings
+  - `compare_remediation_scenarios()`: Compare multiple restoration approaches
+  - Support for habitat types: native forest, wetland, grassland, agroforestry
+- **Comprehensive Test Suite** (`tests/test_restoration_calculator.py`):
+  - 20+ unit tests covering all restoration calculator methods
+  - Edge case validation (negative values, invalid types, missing parameters)
+  - Scenario comparison testing
+- **Enhanced README**:
+  - Examples for habitat restoration and species recovery
+  - Restoration timeline and species recovery stages
+  - Habitat type conversion factors documented
+
+### Improved
+
+- Added docstrings with error handling documentation
+- Type hints for all new public methods
+- Evidence-based conversion factors (carbon → habitat, habitat → species)
+- Support for coal mining remediation workflows
+
+### Technical Details
+
+- Species recovery follows 10-30 year recolonization trajectory
+- Carbon conversion: 0.12-0.20 ha/tCO2e (habitat type dependent)
+- Tree carbon sequestration: 0.015 tCO2e/tree over 30 years
+- Species density: 5.5 avg species/hectare in mature habitat
+
 ## [1.2.0] - 2026-03-10
 
 ### Added
