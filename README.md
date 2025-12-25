@@ -109,4 +109,29 @@ scope3 = calc.calculate_scope3_shipping(tons=5000, distance_km=150)
 
 ## Usage Examples
 
+### Paris-Aligned Reduction Pathway
+
+```python
+from src.main import EmissionsIntensityTracker
+
+tracker = EmissionsIntensityTracker()
+pathway = tracker.calculate_paris_aligned_pathway(
+    current_emissions_tco2e=80_000,
+    base_year=2025,
+    target_year=2050,
+    scenario="1.5c",
+)
+print(f"2030 budget: {pathway['budget_2030']:,.0f} tCO2e")
+print(f"Total reduction by 2050: {pathway['total_reduction_pct']:.1f}%")
+```
+
+### Benchmark Against Sector
+
+```python
+result = tracker.benchmark_against_sector(0.045, sector="coal_mining")
+print(f"Performance: {result['performance_band']}")         # above_average
+print(f"Deviation:   {result['deviation_from_avg_pct']:+.1f}%")
+print(f"Gap to best: {result['reduction_needed_to_best']:.4f} tCO2e/t")
+```
+
 Refer to the `tests/` directory for comprehensive example implementations.

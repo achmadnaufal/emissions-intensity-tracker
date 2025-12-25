@@ -176,3 +176,134 @@ class EmissionsIntensityTracker:
             "annual_targets": annual_targets,
             "years_to_target": years_to_target,
         }
+
+    def calculate_paris_aligned_pathway(
+        self,
+        current_emissions_tco2e: float,
+        base_year: int = 2025,
+        target_year: int = 2050,
+        scenario: str = "1.5c",
+    ) -> dict:
+        """
+        Calculate a Paris Agreement-aligned emissions reduction pathway.
+
+        Generates annual emissions budget following Science-Based Targets
+        initiative (SBTi) reduction rates for 1.5°C or 2°C scenarios.
+
+        Args:
+            current_emissions_tco2e: Current annual emissions (tCO2e)
+            base_year: Baseline year for reduction calculation, default 2025
+            target_year: Target net-zero or reduction year, default 2050
+            scenario: "1.5c" (4.2% annual reduction) or "2c" (2.5% annual)
+
+        Returns:
+            Dict with annual_pathway (year → budget_tco2e),
+            cumulative_budget, total_reduction_pct, annual_rate_pct
+
+        Raises:
+            ValueError: If current_emissions_tco2e <= 0 or target_year <= base_year
+            ValueError: If scenario is not "1.5c" or "2c"
+
+        Example:
+            >>> tracker = EmissionsIntensityTracker()
+            >>> pathway = tracker.calculate_paris_aligned_pathway(
+            ...     current_emissions_tco2e=50000, scenario="1.5c"
+            ... )
+            >>> print(f"2030 budget: {pathway['annual_pathway'][2030]:,.0f} tCO2e")
+        """
+        if current_emissions_tco2e <= 0:
+            raise ValueError("current_emissions_tco2e must be positive")
+        if target_year <= base_year:
+            raise ValueError("target_year must be after base_year")
+        if scenario not in ("1.5c", "2c"):
+            raise ValueError("scenario must be '1.5c' or '2c'")
+
+        # SBTi-aligned annual reduction rates (CAGR)
+        annual_rates = {"1.5c": 0.042, "2c": 0.025}
+        annual_rate = annual_rates[scenario]
+
+        annual_pathway = {}
+        cumulative = 0.0
+        years = range(base_year, target_year + 1)
+
+        for i, year in enumerate(years):
+            budget = current_emissions_tco2e * ((1 - annual_rate) ** i)
+            budget = max(0.0, budget)
+            annual_pathway[year] = round(budget, 1)
+            cumulative += budget
+
+        total_reduction = (
+            (current_emissions_tco2e - annual_pathway[target_year]) / current_emissions_tco2e * 100
+        )
+
+        return {
+            "annual_pathway": annual_pathway,
+            "cumulative_budget_tco2e": round(cumulative, 0),
+            "total_reduction_pct": round(total_reduction, 1),
+            "annual_rate_pct": round(annual_rate * 100, 2),
+            "scenario": scenario,
+            "base_year": base_year,
+            "target_year": target_year,
+            "budget_2030": round(annual_pathway.get(min(2030, target_year), 0), 0),
+        }
+
+    def benchmark_against_sector(
+        self,
+        intensity_tco2e_per_unit: float,
+        sector: str = "coal_mining",
+    ) -> dict:
+        """
+        Benchmark an operation's emissions intensity against sector averages.
+
+        Args:
+            intensity_tco2e_per_unit: Measured intensity (tCO2e/tonne or tCO2e/MWh)
+            sector: Industry benchmark sector. Supported: "coal_mining",
+                    "thermal_power", "cement", "steel"
+
+        Returns:
+            Dict with benchmark_value, deviation_pct, performance_band,
+            and reduction_needed_to_avg
+
+        Raises:
+            ValueError: If intensity_tco2e_per_unit < 0 or sector not supported
+
+        Example:
+            >>> result = tracker.benchmark_against_sector(0.045, sector="coal_mining")
+            >>> print(result["performance_band"])  # "above_average"
+        """
+        benchmarks = {
+            "coal_mining":    {"avg": 0.040, "best_practice": 0.025, "unit": "tCO2e/tonne_coal"},
+            "thermal_power":  {"avg": 0.920, "best_practice": 0.550, "unit": "tCO2e/MWh"},
+            "cement":         {"avg": 0.650, "best_practice": 0.430, "unit": "tCO2e/tonne_cement"},
+            "steel":          {"avg": 1.800, "best_practice": 1.200, "unit": "tCO2e/tonne_steel"},
+        }
+        if intensity_tco2e_per_unit < 0:
+            raise ValueError("intensity_tco2e_per_unit cannot be negative")
+        if sector not in benchmarks:
+            raise ValueError(f"Unsupported sector '{sector}'. Choose from: {list(benchmarks)}")
+
+        ref = benchmarks[sector]
+        avg = ref["avg"]
+        best = ref["best_practice"]
+        deviation_pct = (intensity_tco2e_per_unit - avg) / avg * 100
+
+        if intensity_tco2e_per_unit <= best:
+            band = "best_practice"
+        elif intensity_tco2e_per_unit <= avg:
+            band = "above_average"
+        elif intensity_tco2e_per_unit <= avg * 1.25:
+            band = "average"
+        else:
+            band = "below_average"
+
+        return {
+            "measured_intensity": intensity_tco2e_per_unit,
+            "sector_average": avg,
+            "sector_best_practice": best,
+            "deviation_from_avg_pct": round(deviation_pct, 1),
+            "performance_band": band,
+            "reduction_needed_to_avg": round(max(0, intensity_tco2e_per_unit - avg), 4),
+            "reduction_needed_to_best": round(max(0, intensity_tco2e_per_unit - best), 4),
+            "unit": ref["unit"],
+            "sector": sector,
+        }
