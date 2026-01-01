@@ -5,6 +5,19 @@ All notable changes to the Emissions Intensity Tracker project are documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-03-21
+
+### Added
+- **Scope 3 Upstream Calculator** (`src/calculations/scope3_upstream.py`) — GHG Protocol Category 1–4 upstream emissions
+  - Cat 1: Purchased goods (ANFO explosives, tyres) with EcoInvent 3.9 emission factors
+  - Cat 2: Capital goods (structural steel embodied carbon, World Steel Assoc. factors)
+  - Cat 3: Upstream fuel lifecycle (well-to-tank diesel addition)
+  - Cat 4: Inbound logistics (road freight 0.096 kg/t-km, rail 0.028 kg/t-km)
+  - `benchmark()` method comparing operation intensity vs industry average
+  - `UpstreamEmissionsResult` dataclass for structured reporting
+- **Sample data** — `data/scope3_upstream_sample.csv` with 8 major Indonesian coal operations
+- **Unit tests** — 14 new tests in `tests/test_scope3_upstream.py`
+
 ## [1.4.0] - 2026-03-15
 
 ### Added
