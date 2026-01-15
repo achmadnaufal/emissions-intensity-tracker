@@ -5,6 +5,20 @@ All notable changes to the Emissions Intensity Tracker project are documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2026-03-25
+
+### Added
+- **Carbon Tax Exposure Calculator** (`src/carbon_tax_exposure_calculator.py`) — TCFD-aligned financial risk quantification for carbon pricing
+  - Four IEA carbon price trajectories: NZE 2050, SDS (1.8°C), Announced Pledges (NDCs), STEPS (2.5°C)
+  - Linear interpolation for any assessment year 2020–2060
+  - Scope 1+2 operational exposure and optional Scope 3 downstream coal combustion exposure
+  - Incremental exposure net of existing carbon tax already paid
+  - Cost per tonne of coal produced and exposure as % of hypothetical revenue
+  - Risk classification: low / medium / high / critical by USD threshold
+  - All-scenario comparison (4 scenarios at a single year)
+  - Multi-year projection across a list of target years
+- Unit tests: 18 new tests in `tests/test_carbon_tax_exposure_calculator.py`
+
 ## [1.6.0] - 2026-03-23
 
 ### Added
