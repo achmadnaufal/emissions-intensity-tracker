@@ -1,0 +1,89 @@
+{
+  "description": "Sample company emissions profiles for SBTi validation testing",
+  "version": "1.0",
+  "profiles": [
+    {
+      "company_id": "COAL_KTM_001",
+      "company_name": "PT Kaltim Prima Coal",
+      "sector": "Coal Mining",
+      "reporting_year": 2023,
+      "scope1_tco2e": 2450000,
+      "scope2_market_tco2e": 320000,
+      "scope3_total_tco2e": 18500000,
+      "targets": [
+        {
+          "scope": "scope_1",
+          "base_year": 2019,
+          "base_year_emissions_tco2e": 2800000,
+          "target_year": 2030,
+          "target_reduction_pct": 42.0,
+          "methodology": "ACA",
+          "scenario": "well_below_2c",
+          "includes_offsets": false
+        },
+        {
+          "scope": "scope_3",
+          "base_year": 2019,
+          "base_year_emissions_tco2e": 20000000,
+          "target_year": 2030,
+          "target_reduction_pct": 25.0,
+          "methodology": "SDA",
+          "scenario": "well_below_2c",
+          "includes_offsets": false
+        }
+      ]
+    },
+    {
+      "company_id": "PHARMA_AZ_001",
+      "company_name": "AstraZeneca Indonesia",
+      "sector": "Pharmaceuticals",
+      "reporting_year": 2023,
+      "scope1_tco2e": 45000,
+      "scope2_market_tco2e": 120000,
+      "scope3_total_tco2e": 890000,
+      "targets": [
+        {
+          "scope": "scope_1",
+          "base_year": 2015,
+          "base_year_emissions_tco2e": 75000,
+          "target_year": 2025,
+          "target_reduction_pct": 98.0,
+          "methodology": "ACA",
+          "scenario": "1.5c",
+          "includes_offsets": false
+        },
+        {
+          "scope": "scope_3",
+          "base_year": 2019,
+          "base_year_emissions_tco2e": 1000000,
+          "target_year": 2030,
+          "target_reduction_pct": 50.0,
+          "methodology": "ACA",
+          "scenario": "1.5c",
+          "includes_offsets": false
+        }
+      ]
+    },
+    {
+      "company_id": "PALM_SUM_002",
+      "company_name": "PT Sumatra Agri Resources",
+      "sector": "Agriculture",
+      "reporting_year": 2023,
+      "scope1_tco2e": 380000,
+      "scope2_market_tco2e": 95000,
+      "scope3_total_tco2e": 1250000,
+      "targets": [
+        {
+          "scope": "scope_1",
+          "base_year": 2020,
+          "base_year_emissions_tco2e": 420000,
+          "target_year": 2028,
+          "target_reduction_pct": 18.0,
+          "methodology": "ACA",
+          "scenario": "well_below_2c",
+          "includes_offsets": true
+        }
+      ]
+    }
+  ]
+}

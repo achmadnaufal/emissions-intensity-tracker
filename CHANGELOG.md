@@ -5,6 +5,21 @@ All notable changes to the Emissions Intensity Tracker project are documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - 2026-03-26
+
+### Added
+- **ScienceBasedTargetsValidator** (`src/sbti_targets_validator.py`) — SBTi Corporate Manual v2.0 alignment checker
+  - Validates Scope 1+2 near-term targets using Absolute Contraction Approach (ACA) minimum rates
+  - Scope 3 materiality check: flags missing Scope 3 target when S3 > 40% of total inventory
+  - Long-term net-zero alignment: verifies ≥90% absolute reduction for NET_ZERO scenario
+  - Target horizon validation: 5–10 year near-term window enforcement
+  - Offset-reliance warning (SBTi prioritises direct reductions)
+  - Batch validation with portfolio-level summary report
+  - Three temperature scenarios: `well_below_2c`, `1.5c`, `net_zero`
+  - Overall status: APPROVED / CONDITIONAL / REJECTED with actionable flags
+- Sample data: `data/sbti_sample_profiles.json` — 3 company profiles across coal, pharma, agri sectors
+- Unit tests: 13 new tests in `tests/test_sbti_targets_validator.py`
+
 ## [1.7.0] - 2026-03-25
 
 ### Added
