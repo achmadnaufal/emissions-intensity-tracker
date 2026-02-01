@@ -5,6 +5,18 @@ All notable changes to the Emissions Intensity Tracker project are documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - 2026-03-30
+
+### Added
+- **NetZeroPathwayTracker** (`src/net_zero_pathway_tracker.py`)
+  - `NetZeroPathwayTracker` — tracks corporate annual emissions against four science-based net zero pathways: linear, exponential, SBTi 1.5°C (4.2%/yr), SBTi well-below 2°C (2.5%/yr), IEA NZE 2050
+  - `AnnualProgressRecord` — per-year snapshot with target, gap, YoY reduction %, required future rate, and cumulative budget consumed %
+  - `NetZeroPathwayReport` — full report with on-track rate, overall status (on_track/lagging/critical), remaining carbon budget, and implied net zero year extrapolation
+  - `record_year()` / `record_batch()` for incremental data entry; `pathway_target(year)` for target lookup
+  - `total_carbon_budget()` — cumulative allowable emissions from base year to net zero
+  - strict_mode: validates that custom pathway types supply reduction rates
+- **Test Suite** (`tests/test_net_zero_pathway_tracker.py`) — 35 unit tests covering all pathway types, instantiation guards, on-track/off-track detection, budget tracking, and status classification
+
 ## [1.8.0] - 2026-03-26
 
 ### Added
