@@ -5,6 +5,24 @@ All notable changes to the Emissions Intensity Tracker project are documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-03-30
+
+### Added
+- **CBAM Cost Calculator** (`src/cbam_cost_calculator.py`) — EU Carbon Border Adjustment Mechanism liability estimation for Indonesian exporters per Regulation (EU) 2023/956
+  - 6 CBAM-covered sectors: cement, aluminium, fertilisers, electricity, iron_steel, hydrogen (Annex I)
+  - EU ETS benchmark intensities per sector from CBAM Implementing Regulation (EU) 2023/2390
+  - `CBAMCostCalculator.estimate_annual_cost()`: total embedded emissions, taxable tCO2 above benchmark, gross/net CBAM cost in EUR
+  - Domestic carbon price credit deduction (zero if no local carbon tax)
+  - Supplier pass-through exposure estimate (25% default fraction for coal supply chain)
+  - `portfolio_estimate()`: aggregate CBAM exposure across multiple product lines
+  - `carbon_price_sensitivity()`: sensitivity table across EU ETS price scenarios
+  - `total_cbam_cost_idr()`: IDR conversion helper
+- **Unit tests** — 35 new tests in `tests/test_cbam_cost_calculator.py`
+
+### References
+- European Parliament (2023) Regulation (EU) 2023/956 on CBAM. OJ L 130/52.
+- European Commission (2022) CBAM Impact Assessment. SWD(2022)345.
+
 ## [1.9.0] - 2026-03-30
 
 ### Added
