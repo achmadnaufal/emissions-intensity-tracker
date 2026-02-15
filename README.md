@@ -1,137 +1,136 @@
 # Emissions Intensity Tracker
 
-Scope 1, 2, and 3 greenhouse gas emissions intensity tracking for coal operations
+![Python](https://img.shields.io/badge/python-3.9%2B-blue?logo=python) ![License](https://img.shields.io/badge/license-MIT-green) ![Last Commit](https://img.shields.io/github/last-commit/achmadnaufal/emissions-intensity-tracker)
+
+Scope 1, 2, and 3 greenhouse gas emissions intensity tracking for coal operations — with Paris-aligned pathway modelling, SBTi benchmarking, and carbon reduction roadmaps.
 
 ## Features
-- Data ingestion from CSV/Excel input files
-- Automated analysis and KPI calculation
-- Summary statistics and trend reporting
-- Sample data generator for testing and development
+
+- **Emission intensity calculation** — tCO2e per tonne of production across Scope 1/2/3
+- **Year-over-year trend analysis** — per-operation with CAGR tracking
+- **Paris 1.5°C / 2°C pathway** — SBTi-aligned annual reduction budgets
+- **Sector benchmarking** — compare against coal_mining, thermal_power, cement, steel
+- **Carbon reduction roadmaps** — annual targets to a user-defined % reduction
+- **EU CBAM cost estimation** — liability calculator for cross-border carbon adjustment
+- **Net-zero pathway tracker** — IEA/SBTi/linear/exponential scenario support
+- Supports CSV and Excel input formats
 
 ## Installation
 
+**Step 1: Clone the repository**
+```bash
+git clone https://github.com/achmadnaufal/emissions-intensity-tracker.git
+cd emissions-intensity-tracker
+```
+
+**Step 2: Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-## Quick Start
+## Usage
 
-```python
-from src.main import EmissionsIntensityTracker
-
-analyzer = EmissionsIntensityTracker()
-df = analyzer.load_data("data/sample.csv")
-result = analyzer.analyze(df)
-print(result)
+**Step 3: Run with sample data**
+```bash
+python3 demo/run_demo.py
 ```
 
-## Data Format
-
-Expected CSV columns: `operation_id, year, scope1_tco2e, scope2_tco2e, scope3_tco2e, production_tonnes, intensity_tco2e_t`
-
-## Project Structure
-
-```
-emissions-intensity-tracker/
-├── src/
-│   ├── main.py          # Core analysis logic
-│   └── data_generator.py # Sample data generator
-├── data/                # Data directory (gitignored for real data)
-├── examples/            # Usage examples
-├── requirements.txt
-└── README.md
-```
-
-## License
-
-MIT License — free to use, modify, and distribute.
-
-## New: Environmental Restoration Calculator
-
-Convert emissions reductions to biodiversity impact metrics for post-mining land restoration:
-
-```python
-from src.restoration_calculator import RestorationCalculator
-
-calc = RestorationCalculator()
-
-# Calculate habitat restoration from carbon reduction
-habitat = calc.calculate_habitat_restoration(
-    emissions_reduction_tco2e=500,
-    habitat_type="native_forest"  # or "wetland", "grassland", "agroforestry"
-)
-print(f"Restorable habitat: {habitat['habitat_area_hectares']} hectares")
-
-# Project species recovery
-species = calc.calculate_species_recovery(
-    habitat_area_hectares=75,
-    baseline_species_count=0,
-    years=10
-)
-print(f"Species recovered: {species['projected_species_final']}")
-
-# Tree planting impact
-trees = calc.calculate_tree_planting_impact(
-    trees_planted=5000,
-    tree_survival_rate_pct=85,  # Conservative estimate
-    years=30
-)
-print(f"Carbon: {trees['carbon_sequestered_tco2e']} tCO2e")
-print(f"Habitat equivalent: {trees['habitat_hectares_equivalent']} hectares")
-```
-
-### Habitat Restoration Types
-
-- **Native Forest**: 0.15 ha/tCO2e (baseline conversion)
-- **Wetland**: 0.18 ha/tCO2e (higher biodiversity density)
-- **Grassland**: 0.12 ha/tCO2e (lower management intensity)
-- **Agroforestry**: 0.20 ha/tCO2e (productive + biodiversity combined)
-
-### Species Recovery Timeline
-
-- **Year 0-2**: Pioneer species (0-15% capacity)
-- **Year 2-5**: Early succession (15-50% capacity)
-- **Year 5-10**: Mid-succession (50-80% capacity)
-- **Year 10+**: Mature ecosystem (80-100% capacity)
-
-## Emissions Scope Calculator
-
-Calculate Scope 1, 2, and 3 emissions:
-
-```python
-from src.calculations.scope_calculator import EmissionsCalculator
-
-calc = EmissionsCalculator('Mine A')
-scope1 = calc.calculate_scope1_diesel(liters=50000)
-scope2 = calc.calculate_scope2_electricity(kwh=250000)
-scope3 = calc.calculate_scope3_shipping(tons=5000, distance_km=150)
-```
-
-## Usage Examples
-
-### Paris-Aligned Reduction Pathway
-
+**Step 4: Use in your own code**
 ```python
 from src.main import EmissionsIntensityTracker
 
 tracker = EmissionsIntensityTracker()
-pathway = tracker.calculate_paris_aligned_pathway(
-    current_emissions_tco2e=80_000,
-    base_year=2025,
-    target_year=2050,
-    scenario="1.5c",
+df = tracker.load_data("data/extended_emissions_data.csv")
+
+# Calculate intensities
+df = tracker.calculate_emission_intensity(
+    df,
+    scope_cols=["scope1_tco2e", "scope2_tco2e", "scope3_tco2e"],
+    production_col="production_tonnes"
 )
-print(f"2030 budget: {pathway['budget_2030']:,.0f} tCO2e")
-print(f"Total reduction by 2050: {pathway['total_reduction_pct']:.1f}%")
+
+# Paris 1.5°C pathway
+pathway = tracker.calculate_paris_aligned_pathway(50000, scenario="1.5c")
+
+# Benchmark against sector
+bench = tracker.benchmark_against_sector(0.038, sector="coal_mining")
 ```
 
-### Benchmark Against Sector
+**Step 5: View results**
+Results printed to terminal; export via `tracker.to_dataframe(result).to_csv("output.csv")`
 
-```python
-result = tracker.benchmark_against_sector(0.045, sector="coal_mining")
-print(f"Performance: {result['performance_band']}")         # above_average
-print(f"Deviation:   {result['deviation_from_avg_pct']:+.1f}%")
-print(f"Gap to best: {result['reduction_needed_to_best']:.4f} tCO2e/t")
+## Data Format
+
+Expected CSV columns:
+```
+operation_id, year, scope1_tco2e, scope2_tco2e, scope3_tco2e, production_tonnes, region, operation_type
 ```
 
-Refer to the `tests/` directory for comprehensive example implementations.
+## Example Output
+
+```
+$ python3 demo/run_demo.py
+============================================================
+  Emissions Intensity Tracker — Demo
+============================================================
+
+✓ Loaded 12 records from extended_emissions_data.csv
+  Operations: 4 | Years: [2023, 2024, 2025]
+
+✓ Calculated Scope 1+2+3 emission intensities
+  Avg intensity: 0.3338 tCO2e/tonne
+  Best performer: OP-AUSTRALIA-001 (0.2845 tCO2e/t)
+
+✓ Year-over-year trend analysis (4 operations):
+  Operation                   YoY Change    Avg Annual   Latest (tCO2e)
+  -----------------------------------------------------------------
+  OP-AUSTRALIA-001          ↓       9.3%        -4.64%         31,300.0
+  OP-COLOMBIA-001           ↓       6.8%        -3.38%         19,300.0
+  OP-KALIMANTAN-001         ↓       8.1%        -4.03%         25,100.0
+  OP-SUMATRA-001            ↓       8.2%        -4.10%         17,900.0
+
+✓ Paris 1.5°C Pathway (from 50,000 tCO2e baseline):
+  Annual reduction rate : 4.2% CAGR (SBTi ACA)
+  2030 budget           : 40,346 tCO2e
+  2050 budget           : 17,104 tCO2e
+  Total reduction       : 65.8% vs baseline
+
+✓ Sector benchmark (coal_mining):
+  Measured intensity    : 0.038 tCO2e/tonne
+  Sector average        : 0.04 tCO2e/tonne
+  Deviation from avg    : -5.0%
+  Performance band      : ABOVE_AVERAGE
+
+✓ Carbon reduction roadmap (25% in 5 years):
+  Current intensity     : 0.038 tCO2e/unit
+  Target intensity      : 0.0285 tCO2e/unit
+  Year 1               : 0.0361 tCO2e/unit
+  Year 5               : 0.0285 tCO2e/unit
+
+============================================================
+  ✅ Demo complete
+============================================================
+```
+
+## Architecture
+
+```mermaid
+graph TD
+    A[CSV / Excel Input] --> B[EmissionsIntensityTracker]
+    B --> C[Intensity Calculation\nScope 1+2+3 / Production]
+    B --> D[Trend Analysis\nYoY CAGR per operation]
+    B --> E[Paris Pathway\n1.5°C / 2°C SBTi budgets]
+    B --> F[Sector Benchmark\ncoal_mining / power / cement]
+    B --> G[Reduction Roadmap\nAnnual targets]
+    C & D & E & F & G --> H[Summary Report / CSV Export]
+```
+
+## Testing
+
+```bash
+pytest tests/ -v
+```
+
+---
+
+> Built by [Achmad Naufal](https://github.com/achmadnaufal) | Lead Data Analyst | Power BI · SQL · Python · GIS
