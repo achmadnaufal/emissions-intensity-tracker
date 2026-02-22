@@ -2,6 +2,29 @@
 
 All notable changes to the Emissions Intensity Tracker project are documented in this file.
 
+## [2.1.0] - 2026-03-31
+
+### Added
+- **Scope 3 Supply Chain Calculator** (`src/scope3_supply_chain_calculator.py`) — GHG Protocol Scope 3 upstream and downstream emissions for coal mining
+  - `TransportLeg` dataclass: mode, distance, tonnage, load factor, optional custom EF
+  - `CoalCombustionEndUse` dataclass: IPCC 2006 coal combustion emission factors (bituminous 2.42, subbituminous 1.85, lignite 1.32 t CO2e/t)
+  - `Scope3SupplyChainCalculator` class: Categories 4, 9, and 11
+  - Linear load-factor correction for empty return leg emissions
+  - Cat 11 dominance detection (>90%) with customer transition recommendations
+  - Road-to-rail modal shift recommendation (0.120→0.028 kg CO2e/tkm)
+  - `transport_intensity_tkm_per_t()`: fleet intensity metric for GHG reporting
+  - Category breakdown with `largest_category` identification
+- **Unit tests** — 30 new tests in `tests/test_scope3_supply_chain_calculator.py` (all passing)
+
+### References
+- GHG Protocol (2011) Corporate Value Chain (Scope 3) Accounting Standard.
+- IPCC (2006) Guidelines Vol. 2 — Energy, Chapter 2.
+- IEA (2023) World Energy Statistics — Coal emission factors.
+
+# Changelog
+
+All notable changes to the Emissions Intensity Tracker project are documented in this file.
+
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
