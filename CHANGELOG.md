@@ -2,6 +2,19 @@
 
 All notable changes to the Emissions Intensity Tracker project are documented in this file.
 
+## [2.2.0] - 2026-04-01
+
+### Added
+- **Carbon Credit Delivery Scheduler** (`src/carbon_credit_delivery_scheduler.py`) — issuance and forward delivery management for NbS and industrial decarbonisation projects
+  - `IssuancePeriod` dataclass: annual gross ERs, verified/estimated flag, registry issuance ID
+  - `DeliveryCommitment` dataclass: buyer, vintage year, tCO₂e committed, deadline, purpose (voluntary/compliance/CORSIA/ETS), retirement tracking (date, serial)
+  - `CreditDeliveryScheduler` class: buffer pool deduction (configurable %), `net_issuance()` per vintage, `delivery_report()` with per-vintage surplus/deficit analysis
+  - Gap analysis: overall SURPLUS/DEFICIT, overcommitted vintages list, buffer deduction breakdown
+  - `retirement_schedule()`: registry retirement records with vintage/serial/buyer
+  - `unretired_commitments()`: outstanding delivery obligations
+  - Supports Verra VCS verification cycles; CORSIA/ETS purpose tracking
+- **Unit tests** — 18 new tests in `tests/test_carbon_credit_delivery_scheduler.py` (all passing)
+
 ## [2.1.0] - 2026-03-31
 
 ### Added
