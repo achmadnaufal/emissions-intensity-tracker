@@ -46,7 +46,55 @@ emissions-intensity-tracker/
 
 MIT License — free to use, modify, and distribute.
 
-## New: Emissions Scope Calculator
+## New: Environmental Restoration Calculator
+
+Convert emissions reductions to biodiversity impact metrics for post-mining land restoration:
+
+```python
+from src.restoration_calculator import RestorationCalculator
+
+calc = RestorationCalculator()
+
+# Calculate habitat restoration from carbon reduction
+habitat = calc.calculate_habitat_restoration(
+    emissions_reduction_tco2e=500,
+    habitat_type="native_forest"  # or "wetland", "grassland", "agroforestry"
+)
+print(f"Restorable habitat: {habitat['habitat_area_hectares']} hectares")
+
+# Project species recovery
+species = calc.calculate_species_recovery(
+    habitat_area_hectares=75,
+    baseline_species_count=0,
+    years=10
+)
+print(f"Species recovered: {species['projected_species_final']}")
+
+# Tree planting impact
+trees = calc.calculate_tree_planting_impact(
+    trees_planted=5000,
+    tree_survival_rate_pct=85,  # Conservative estimate
+    years=30
+)
+print(f"Carbon: {trees['carbon_sequestered_tco2e']} tCO2e")
+print(f"Habitat equivalent: {trees['habitat_hectares_equivalent']} hectares")
+```
+
+### Habitat Restoration Types
+
+- **Native Forest**: 0.15 ha/tCO2e (baseline conversion)
+- **Wetland**: 0.18 ha/tCO2e (higher biodiversity density)
+- **Grassland**: 0.12 ha/tCO2e (lower management intensity)
+- **Agroforestry**: 0.20 ha/tCO2e (productive + biodiversity combined)
+
+### Species Recovery Timeline
+
+- **Year 0-2**: Pioneer species (0-15% capacity)
+- **Year 2-5**: Early succession (15-50% capacity)
+- **Year 5-10**: Mid-succession (50-80% capacity)
+- **Year 10+**: Mature ecosystem (80-100% capacity)
+
+## Emissions Scope Calculator
 
 Calculate Scope 1, 2, and 3 emissions:
 
@@ -58,8 +106,6 @@ scope1 = calc.calculate_scope1_diesel(liters=50000)
 scope2 = calc.calculate_scope2_electricity(kwh=250000)
 scope3 = calc.calculate_scope3_shipping(tons=5000, distance_km=150)
 ```
-
-
 
 ## Usage Examples
 
