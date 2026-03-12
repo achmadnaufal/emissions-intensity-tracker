@@ -2,6 +2,13 @@
 
 All notable changes to the Emissions Intensity Tracker project are documented in this file.
 
+## [2.3.0] - 2026-04-02
+
+### Added
+- **CarbonMarketArbitrageAnalyzer** (`src/carbon_market_arbitrage.py`) — Cross-market price spread and arbitrage window detection across EU ETS VCS Gold Standard and Article 6 bilateral markets
+- **Unit tests** — new comprehensive test suite in `tests/test_carbon_market_arbitrage.py`
+- **CHANGELOG** updated to v2.3.0
+
 ## [2.2.0] - 2026-04-01
 
 ### Added
