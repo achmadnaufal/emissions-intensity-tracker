@@ -5,6 +5,14 @@ All notable changes to the Emissions Intensity Tracker project are documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-03-15
+
+### Added
+- **Paris-Aligned Pathway Calculator** — `calculate_paris_aligned_pathway()`: Generates annual emissions budgets following SBTi 1.5°C (4.2% CAGR) or 2°C (2.5% CAGR) reduction rates with 2030 interim budget
+- **Sector Benchmarking** — `benchmark_against_sector()`: Benchmarks operations against industry averages and best-practice for coal mining, thermal power, cement, and steel
+- **Unit Tests** — 12 new tests in `tests/test_paris_pathway.py` covering pathway monotonicity, band classification, and error handling
+- **README** — Added pathway and benchmarking usage examples
+
 ## [1.3.0] - 2026-03-12
 
 ### Added
