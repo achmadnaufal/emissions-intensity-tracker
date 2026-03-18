@@ -2,6 +2,12 @@
 
 All notable changes to the Emissions Intensity Tracker project are documented in this file.
 
+## [2.4.0] - 2026-04-03
+
+### Added
+- **GreenSteelTransitionCalculator** (`src/green_steel_transition_calculator.py`) — Models green steel transition economics and emissions for BF-BOF, BF-BOF+CCS, DRI-EAF-NG, H-DRI-EAF, electrowinning, and scrap-EAF pathways. Computes CO₂e intensity, cost premium, abatement cost, capex, H₂ demand, electricity demand, NPV, deployment risk, and key enablers. Technology compare mode for pathway screening. Aligned with IEA (2022) Steel Roadmap and HYBRIT pilot data.
+- **Unit tests** — 32 tests in `tests/test_green_steel_transition_calculator.py`.
+
 ## [2.3.0] - 2026-04-02
 
 ### Added
