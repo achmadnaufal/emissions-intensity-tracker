@@ -5,6 +5,25 @@ All notable changes to the Emissions Intensity Tracker project are documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2026-03-23
+
+### Added
+- `src/calculations/scope3_downstream.py` — GHG Protocol Scope 3 downstream emissions
+  - `CoalShipment` dataclass with full input validation
+  - `Scope3DownstreamCalculator` class covering:
+    - Category 9: downstream transportation (barge, vessel, rail, truck)
+    - Category 11: use of sold products (coal combustion at customer sites)
+    - Category 12: end-of-life treatment (fly ash landfill)
+  - `generate_report()` — full breakdown with sector and grade splits
+  - `intensity_tCO2e_per_tonne()` — downstream Scope 3 intensity metric
+  - Coal grade emission factors: anthracite, bituminous, sub-bituminous, lignite
+- `data/sample_coal_shipments.csv` — 12 realistic shipment records (Indonesia + export)
+- 25 unit tests in `tests/test_scope3_downstream.py`
+
+### References
+- GHG Protocol Corporate Value Chain (Scope 3) Standard
+- IPCC AR5 GWP-100 values
+
 ## [1.5.0] - 2026-03-21
 
 ### Added
