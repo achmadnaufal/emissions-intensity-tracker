@@ -1,6 +1,8 @@
 # Emissions Intensity Tracker
 
-![Python](https://img.shields.io/badge/python-3.9%2B-blue?logo=python) ![License](https://img.shields.io/badge/license-MIT-green) ![Last Commit](https://img.shields.io/github/last-commit/achmadnaufal/emissions-intensity-tracker)
+![Python](https://img.shields.io/badge/python-3.9%2B-blue?logo=python)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Last Commit](https://img.shields.io/github/last-commit/achmadnaufal/emissions-intensity-tracker)
 
 Scope 1, 2, and 3 greenhouse gas emissions intensity tracking for coal operations — with Paris-aligned pathway modelling, SBTi benchmarking, and carbon reduction roadmaps.
 
@@ -14,6 +16,15 @@ Scope 1, 2, and 3 greenhouse gas emissions intensity tracking for coal operation
 - **EU CBAM cost estimation** — liability calculator for cross-border carbon adjustment
 - **Net-zero pathway tracker** — IEA/SBTi/linear/exponential scenario support
 - Supports CSV and Excel input formats
+
+## Tech Stack
+
+| Tool | Purpose |
+|---|---|
+| **Python 3.9+** | Core language |
+| **pandas / numpy** | Data manipulation |
+| **scipy** | Statistical calculations |
+| **pytest** | Unit testing |
 
 ## Installation
 
@@ -56,17 +67,25 @@ pathway = tracker.calculate_paris_aligned_pathway(50000, scenario="1.5c")
 bench = tracker.benchmark_against_sector(0.038, sector="coal_mining")
 ```
 
-**Step 5: View results**
-Results printed to terminal; export via `tracker.to_dataframe(result).to_csv("output.csv")`
-
-## Data Format
-
-Expected CSV columns:
-```
-operation_id, year, scope1_tco2e, scope2_tco2e, scope3_tco2e, production_tonnes, region, operation_type
+**Step 5: Export results**
+```python
+tracker.to_dataframe(result).to_csv("output.csv", index=False)
 ```
 
-## Example Output
+## Architecture
+
+```mermaid
+graph TD
+    A[CSV / Excel Input] --> B[EmissionsIntensityTracker]
+    B --> C[Intensity Calculation\nScope 1+2+3 / Production]
+    B --> D[Trend Analysis\nYoY CAGR per operation]
+    B --> E[Paris Pathway\n1.5°C / 2°C SBTi budgets]
+    B --> F[Sector Benchmark\ncoal_mining / power / cement]
+    B --> G[Reduction Roadmap\nAnnual targets]
+    C & D & E & F & G --> H[Summary Report / CSV Export]
+```
+
+## Screenshots / Demo Output
 
 ```
 $ python3 demo/run_demo.py
@@ -105,6 +124,9 @@ $ python3 demo/run_demo.py
   Current intensity     : 0.038 tCO2e/unit
   Target intensity      : 0.0285 tCO2e/unit
   Year 1               : 0.0361 tCO2e/unit
+  Year 2               : 0.0342 tCO2e/unit
+  Year 3               : 0.0323 tCO2e/unit
+  Year 4               : 0.0304 tCO2e/unit
   Year 5               : 0.0285 tCO2e/unit
 
 ============================================================
@@ -112,24 +134,15 @@ $ python3 demo/run_demo.py
 ============================================================
 ```
 
-## Architecture
-
-```mermaid
-graph TD
-    A[CSV / Excel Input] --> B[EmissionsIntensityTracker]
-    B --> C[Intensity Calculation\nScope 1+2+3 / Production]
-    B --> D[Trend Analysis\nYoY CAGR per operation]
-    B --> E[Paris Pathway\n1.5°C / 2°C SBTi budgets]
-    B --> F[Sector Benchmark\ncoal_mining / power / cement]
-    B --> G[Reduction Roadmap\nAnnual targets]
-    C & D & E & F & G --> H[Summary Report / CSV Export]
-```
-
 ## Testing
 
 ```bash
 pytest tests/ -v
 ```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. PRs welcome — especially additional sector benchmarks, SBTi validation modules, and EU CBAM coverage extensions.
 
 ---
 
