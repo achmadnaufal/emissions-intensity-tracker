@@ -15,6 +15,7 @@ Scope 1, 2, and 3 greenhouse gas emissions intensity tracking for coal operation
 - **Carbon reduction roadmaps** — annual targets to a user-defined % reduction
 - **EU CBAM cost estimation** — liability calculator for cross-border carbon adjustment
 - **Net-zero pathway tracker** — IEA/SBTi/linear/exponential scenario support
+- **Methane (CH₄) tracker** — IPCC Tier 2 underground/surface mining emissions with VAM, gas drainage, and abatement cost curves
 - Supports CSV and Excel input formats
 
 ## Tech Stack
@@ -65,6 +66,23 @@ pathway = tracker.calculate_paris_aligned_pathway(50000, scenario="1.5c")
 
 # Benchmark against sector
 bench = tracker.benchmark_against_sector(0.038, sector="coal_mining")
+```
+
+**Methane (CH₄) emissions accounting:**
+```python
+from src.methane_tracker import MethaneEmissionsCalculator
+
+calc = MethaneEmissionsCalculator()
+emissions = calc.calculate_mining_emissions(
+    mine_type="underground",
+    production_t=500000,
+    methane_content_m3_t=12.5,
+    emission_factor=0.5
+)
+vam = calc.calculate_vam_emissions(air_flow_m3s=50, ch4_ppm=2500, operating_hours=8760)
+curve = calc.abatement_cost_curve()
+net = calc.net_emissions_after_abatement(gross_emissions_tco2e=12500, abatement_pct=60)
+print(f"CH₄ emissions: {emissions:.0f} tCO₂e | VAM: {vam['net_tco2e']:.0f} tCO₂e | Net after abatement: {net:.0f} tCO₂e")
 ```
 
 **Step 5: Export results**

@@ -2,6 +2,23 @@
 
 All notable changes to the Emissions Intensity Tracker project are documented in this file.
 
+## [2.5.0] - 2026-04-14
+
+### Added
+- **MethaneEmissionsCalculator** (`src/methane_tracker.py`) — IPCC Tier 2 CH₄ accounting for coal mining
+  - `calculate_mining_emissions()`: underground + surface mining CH₄ → tCO₂e
+  - `calculate_drainage_emissions()`: post-mining drainage + oxidation credit
+  - `calculate_vam_emissions()`: ventilation air methane capture calculations
+  - `cumulative_emissions_profile()`: mine lifetime CH₄ trajectory
+  - `abatement_cost_curve()`: abatement options (flaring, VAM oxidation, drainage capture)
+  - `net_emissions_after_abatement()`: net tCO₂e after abatement
+- **Unit tests** — 27 tests in `tests/test_methane_tracker.py`
+- **Sample data** — `sample_data/methane_emissions_scenarios.csv` (8 mines: Indonesia, Australia, South Africa)
+
+### References
+- IPCC (2006) Vol. 2 Energy Chapter 4 — Underground and Surface Mining
+- IEA (2023) Methane Emissions from Coal Mining — abatement technology costs
+
 ## [2.4.0] - 2026-04-03
 
 ### Added
